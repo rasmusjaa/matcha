@@ -1,0 +1,104 @@
+// register / login
+	// The app must allow a user to register asking at least an email address, a username, a last
+	// name, a first name and a password that is somehow protected. After the registration, an
+	// e-mail with an unique link must be sent to the registered user to verify his account.
+	// The user must then be able to connect with his/her username and password. He/She
+	// must be able to receive an email allowing him/her to re-initialize his/her password should
+	// the first one be forgotten and disconnect with 1 click from any pages on the site.
+// user profile: own and others
+	// • Once connected, a user must fill his or her profile, adding the following information:
+	// ◦ The gender.
+	// ◦ Sexual preferences.
+	// ◦ A biography.
+	// ◦ A list of interests with tags (ex: #vegan, #geek, #piercing etc...). These tags
+	// must be reusable.
+	// ◦ Pictures, max 5, including 1 as profile picture.
+
+	// The user must be able to check who looked at his/her profile as well as who “liked”
+	// him/her.
+
+	// public fame rating
+
+	// The user must be located using GPS positionning, up to his/her neighborhood. If
+	// the user does not want to be positionned, you must find a way to locate him/her
+	// even without his/her knowledge.2 The user must be able to modify his/her GPS
+	// position in his/her profile.
+
+	// all but email address and the password visible for everyone
+// chat with mutual likes
+// browsing, sortable list
+	// advanced search list
+        distance
+        age
+        likes
+
+// postgeSQL, requests by hand
+
+database rakenne:
+users           crud
+    id
+    email
+    username
+    password
+    first name
+    last name
+    birth date
+    gender
+    sexual preferences
+    biography
+    fame
+    location
+    list of #interests
+	profile picture id
+    logged in
+    last login timestamp
+photos			crd
+    id
+    user id
+likes			crd
+    id
+    timestamp
+    is being liked id
+    liker id
+chat			cr
+    comment id
+    timestamp
+    content
+    user1 id
+    user2 id
+#interests | case insensitive | cr
+    id
+    interest
+profile checks	cr
+    id
+    timestamp
+    is being cheked id
+    checker id
+blocks			crd
+	id
+	timestamp?
+	is being blocked id
+	blocker id
+
+
+// Create and Save a new Tutorial
+exports.create = (req, res) => {
+};
+// Retrieve all Tutorials from the database.
+exports.findAll = (req, res) => {
+};
+// Find a single Tutorial with an id
+exports.findOne = (req, res) => {
+};
+// Update a Tutorial by the id in the request
+exports.update = (req, res) => {
+};
+// Delete a Tutorial with the specified id in the request
+exports.delete = (req, res) => {
+};
+// Delete all Tutorials from the database.
+exports.deleteAll = (req, res) => {
+};
+// Find all published Tutorials
+exports.findAllPublished = (req, res) => {
+};
