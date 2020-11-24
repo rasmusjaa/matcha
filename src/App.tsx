@@ -1,37 +1,12 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import {
-	Route,
-	BrowserRouter,
-	Redirect,
-	Switch,
-	NavLink,
-} from 'react-router-dom'
+import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
 import SignInSide from './components/SignInSide'
 import CreateAccount from './components/CreateAccount'
 import People from './components/People'
+import Profile from './components/Profile'
 import NotFoundComponent from './components/NotFoundComponent'
-
-const Header = () => {
-	return (
-		<div>
-			<ul className="header">
-				<li>
-					<NavLink to="/">Sign In</NavLink>
-				</li>
-				<li>
-					<NavLink to="/create">Create account</NavLink>
-				</li>
-				<li>
-					<NavLink to="/browse">Browse</NavLink>
-				</li>
-				<li>
-					<NavLink to="/404">404</NavLink>
-				</li>
-			</ul>
-		</div>
-	)
-}
+import Header from './components/Header'
 
 const Footer = () => {
 	return (
@@ -59,6 +34,7 @@ const App = () => {
 						<Route exact path="/" component={SignInSide} />
 						<Route path="/create" component={CreateAccount} />
 						<Route path="/browse" component={People} />
+						<Route path="/profile" component={Profile} />
 						<Route path="/404" component={NotFoundComponent} />
 						<Redirect from="/*" to="/404" />
 					</Switch>

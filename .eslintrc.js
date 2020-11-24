@@ -14,6 +14,7 @@ module.exports = {
 	  node: true,
 	  es6: true,
 	  jest: true,
+	  browser: true
 	},
 	globals: {
 	  Atomics: 'readonly',
@@ -29,6 +30,7 @@ module.exports = {
 	  project: './tsconfig.eslint.json',
 	},
 	rules: {
+		"no-console": 0,
 		'prettier/prettier': [
 			'error',
 			{
@@ -40,7 +42,8 @@ module.exports = {
 		],
 		'indent': [
 			'error',
-			'tab'
+			'tab',
+			{ 'SwitchCase': 1 }
 		],
 		'linebreak-style': [
 			'error',
@@ -54,7 +57,8 @@ module.exports = {
 			'error',
 			'never'
 		],
-		'@typescript-eslint/camelcase': 'off'
+		'@typescript-eslint/camelcase': 'off',
+		'no-expplcit-any': 'off' // poist
 	},
 	'overrides': [
 	{

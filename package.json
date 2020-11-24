@@ -28,7 +28,10 @@
         "eject": "react-scripts eject",
         "format": "prettier --write src/**/*.ts{,x}",
         "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
-        "dev": "nodemon index.js"
+        "lint-fix": "eslint src --fix --ext .ts,.tsx",
+        "dev": "nodemon index.js",
+        "dev-prepare": "npm install -g json-server",
+        "dev-db": "json-server --watch db.json --port 3001"
     },
     "eslintConfig": {
         "extends": [

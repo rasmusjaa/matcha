@@ -1,0 +1,35 @@
+{
+	"posts": [
+		{ "id": 1, "title": "json-server", "author": "typicode" }
+	],
+	"comments": [
+		{ "id": 1, "body": "some comment", "postId": 1 }
+	],
+	"profile": { "name": "typicode" },
+	"users": [
+		{
+			"id": "",
+			"email": "camilla.leisti@gmail.com",
+			"username": "cleisti",
+			"password": "",
+			"name": {
+				"first": "Camilla",
+				"last": "Leisti"
+			},
+			"birth_date": "1993-07-20T21:00:00.000Z",
+			"gender": "f",
+			"sexual_preferences": [
+				"male", "female", "both"
+			],
+			"biography": "",
+			"fame": 0,
+			"location": "",
+			"interests": [
+				"#cats", "#yoga"
+			],
+			"profile_pic_id": "",
+			"logged_in": true,
+			"last_login_timestamp": ""
+		}
+	]
+}
