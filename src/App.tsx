@@ -1,6 +1,8 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
+import { ThemeProvider } from '@material-ui/core'
+import theme from './Theme'
 import SignInSide from './components/SignInSide'
 import CreateAccount from './components/CreateAccount'
 import People from './components/People'
@@ -28,18 +30,20 @@ const App = () => {
 						content="minimum-scale=1, initial-scale=1, width=device-width"
 					/>
 				</Helmet>
-				<Header />
-				<div className="content">
-					<Switch>
-						<Route exact path="/" component={SignInSide} />
-						<Route path="/create" component={CreateAccount} />
-						<Route path="/browse" component={People} />
-						<Route path="/profile" component={Profile} />
-						<Route path="/404" component={NotFoundComponent} />
-						<Redirect from="/*" to="/404" />
-					</Switch>
-				</div>
-				<Footer />
+				<ThemeProvider theme={theme}>
+					<Header />
+					<div className="content">
+						<Switch>
+							<Route exact path="/" component={SignInSide} />
+							<Route path="/create" component={CreateAccount} />
+							<Route path="/browse" component={People} />
+							<Route path="/profile" component={Profile} />
+							<Route path="/404" component={NotFoundComponent} />
+							<Redirect from="/*" to="/404" />
+						</Switch>
+					</div>
+					<Footer />
+				</ThemeProvider>
 			</BrowserRouter>
 		</>
 	)

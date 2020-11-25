@@ -2,11 +2,21 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
-import Button from '@material-ui/core/Button'
+import MenuItem from '@material-ui/core/MenuItem'
+import Badge from '@material-ui/core/Badge'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import MenuIcon from '@material-ui/icons/Menu'
+import MailIcon from '@material-ui/icons/Mail'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import Theme from '../Theme'
 
 const useStyles = makeStyles({
 	list: {
@@ -14,6 +24,22 @@ const useStyles = makeStyles({
 	},
 	fullList: {
 		width: 'auto',
+	},
+	menuItem: {
+		color: Theme.palette.primary.main,
+		textDecoration: 'none',
+	},
+	menuButton: {
+		padding: '10px',
+	},
+	menuTitle: {
+		padding: '10px',
+	},
+	menuRight: {
+		marginLeft: '0',
+		'&:first-of-type': {
+			marginLeft: 'auto',
+		},
 	},
 })
 
@@ -26,6 +52,29 @@ const SwipeableTemporaryDrawer = () => {
 		right: false,
 	})
 
+	const menuItems = [
+		{
+			name: 'Sign in',
+			url: '/',
+		},
+		{
+			name: 'Create account',
+			url: '/create',
+		},
+		{
+			name: 'Browse',
+			url: '/browse',
+		},
+		{
+			name: 'Profile',
+			url: '/profile',
+		},
+		{
+			name: '404',
+			url: '/404',
+		},
+	]
+
 	const toggleDrawer = (anchor: string, open: boolean) => () => {
 		setState({ ...state, [anchor]: open })
 	}
@@ -37,10 +86,12 @@ const SwipeableTemporaryDrawer = () => {
 			onClick={toggleDrawer(anchor, false)}
 		>
 			<List>
-				{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text) => (
-					<ListItem button key={text}>
-						<ListItemText primary={text} />
-					</ListItem>
+				{menuItems.map((item) => (
+					<NavLink to={item.url} className={classes.menuItem}>
+						<ListItem button key={item.url}>
+							<ListItemText primary={item.name} />
+						</ListItem>
+					</NavLink>
 				))}
 			</List>
 			<Divider />
@@ -55,45 +106,54 @@ const SwipeableTemporaryDrawer = () => {
 	)
 
 	return (
-		<div>
-			<React.Fragment key="rightmenu">
-				<Button onClick={toggleDrawer('right', true)}>MENU</Button>
-				<SwipeableDrawer
-					anchor="right"
-					open={state.right}
-					onClose={toggleDrawer('right', false)}
-					onOpen={toggleDrawer('right', true)}
-				>
-					{list('right')}
-				</SwipeableDrawer>
-			</React.Fragment>
-		</div>
+		<AppBar position="sticky">
+			<Toolbar>
+				<React.Fragment key="rightmenu">
+					<IconButton
+						edge="start"
+						className={classes.menuButton}
+						color="inherit"
+						aria-label="menu"
+						onClick={toggleDrawer('left', true)}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography variant="h6" className={classes.menuTitle}>
+						News
+					</Typography>
+					<MenuItem className={classes.menuRight}>
+						<IconButton color="inherit">
+							<Badge badgeContent={4} color="secondary">
+								<MailIcon />
+							</Badge>
+						</IconButton>
+					</MenuItem>
+					<MenuItem className={classes.menuRight}>
+						<IconButton color="inherit">
+							<Badge badgeContent={999} color="secondary">
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+					</MenuItem>
+					<MenuItem className={classes.menuRight}>
+						<IconButton color="inherit">
+							<AccountCircle />
+						</IconButton>
+					</MenuItem>
+					<SwipeableDrawer
+						anchor="left"
+						open={state.left}
+						onClose={toggleDrawer('left', false)}
+						onOpen={toggleDrawer('left', true)}
+					>
+						{list('left')}
+					</SwipeableDrawer>
+				</React.Fragment>
+			</Toolbar>
+		</AppBar>
 	)
 }
 
-const Header = () => {
-	return (
-		<div>
-			<SwipeableTemporaryDrawer />
-			<ul className="header">
-				<li>
-					<NavLink to="/">Sign In</NavLink>
-				</li>
-				<li>
-					<NavLink to="/create">Create account</NavLink>
-				</li>
-				<li>
-					<NavLink to="/browse">Browse</NavLink>
-				</li>
-				<li>
-					<NavLink to="/profile">Profile</NavLink>
-				</li>
-				<li>
-					<NavLink to="/404">404</NavLink>
-				</li>
-			</ul>
-		</div>
-	)
-}
+const Header = () => <SwipeableTemporaryDrawer />
 
 export default Header

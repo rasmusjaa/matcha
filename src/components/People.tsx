@@ -53,15 +53,6 @@ const People = () => {
 
 	return (
 		<>
-			<CssBaseline />
-			<AppBar position="relative">
-				<Toolbar>
-					<p>logo</p>
-					<Typography variant="h6" color="inherit" noWrap>
-						People layout
-					</Typography>
-				</Toolbar>
-			</AppBar>
 			<main>
 				{/* Hero unit */}
 				<div className={classes.heroContent}>
@@ -88,13 +79,13 @@ const People = () => {
 						<div className={classes.heroButtons}>
 							<Grid container spacing={2} justify="center">
 								<Grid item>
-									<Button variant="contained" color="primary">
-										Main call to action
+									<Button variant="outlined" color="primary">
+										Secondary action
 									</Button>
 								</Grid>
 								<Grid item>
-									<Button variant="outlined" color="primary">
-										Secondary action
+									<Button variant="contained" color="primary">
+										Main call to action
 									</Button>
 								</Grid>
 							</Grid>

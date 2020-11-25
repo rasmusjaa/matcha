@@ -101,6 +101,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	avatar: {
 		margin: theme.spacing(1),
+		height: '150px',
+		width: '150px',
 		backgroundColor: theme.palette.secondary.main,
 	},
 	form: {
@@ -109,6 +111,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
+	},
+	logo: {
+		fontSize: '5em',
+		margin: '0 10px',
 	},
 }))
 
@@ -178,7 +184,7 @@ const SignInSide = () => {
 			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
 				<div className={classes.paper}>
 					<Avatar className={classes.avatar}>
-						<p>avatar</p>
+						<p className={classes.logo}>&#127861;</p>
 					</Avatar>
 					<Typography component="h1" variant="h5">
 						Sign in

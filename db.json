@@ -31,5 +31,27 @@
 			"logged_in": true,
 			"last_login_timestamp": ""
 		}
+	],
+	"interests": [
+		{
+			"id": 1,
+			"interest": "cats"
+		},
+		{
+			"id": 2,
+			"interest": "books"
+		},
+		{
+			"id": 3,
+			"interest": "wine"
+		},
+		{
+			"id": 4,
+			"interest": "airplanesAndEverythingAboutTheSky"
+		},
+		{
+			"id": 5,
+			"interest": "iliketurtles"
+		}
 	]
 }
