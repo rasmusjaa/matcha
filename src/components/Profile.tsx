@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import axios from 'axios'
-import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 // import Link from '@material-ui/core/Link'
-import Copyright from './Copyright'
 
 const useStyles = makeStyles((theme) => ({
 	icon: {
@@ -45,10 +42,6 @@ const useStyles = makeStyles((theme) => ({
 	cardActions: {
 		flexDirection: 'column',
 	},
-	footer: {
-		backgroundColor: theme.palette.background.paper,
-		padding: theme.spacing(6),
-	},
 	logo: {
 		fontSize: '3em',
 		margin: '0 10px',
@@ -57,32 +50,30 @@ const useStyles = makeStyles((theme) => ({
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+interface Hashtags {
+	id: number
+	interest: string
+}
+
 const Profile = () => {
 	const classes = useStyles()
-	const [hashtags, setHashtags] = useState<string[]>([])
-
+	const [hashtags, setHashtags] = useState<Hashtags[]>([])
 	useEffect(() => {
-		axios.request<string[]>({
-			url: 'http://localhost:3001/interests',
-			transformResponse: (r: ServerResponse) => r.data
-		}).then((response) => {
-			// `response` is of type `AxiosResponse<ServerData>`
-			const { data } = response
-			// `data` is of type ServerData, correctly inferred
-		})
-
-		const request = axios.get(
-			'http://localhost:3001/interests'
-		)
-		setHashtags(request.then((response) => response.data: Promise<string[]))
+		axios
+			.get('http://localhost:3001/interests')
+			.then((response) => {
+				setHashtags(response.data)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
-	// const hashtags = () => {
-	// 	const request = axios.get('http://localhost:3001/interests')
-	// 	return request.then((response) => response.data)
-	// }
 
 	return (
 		<>
+			<Helmet>
+				<title>Profile</title>
+			</Helmet>
 			<main>
 				<Container className={classes.cardGrid} maxWidth="md">
 					<Container maxWidth="sm">
@@ -121,8 +112,8 @@ const Profile = () => {
 							<Grid container spacing={2} justify="center">
 								<Grid item>
 									{hashtags.map((hash) => (
-										<Button variant="outlined" color="primary">
-											#{hash}
+										<Button key={hash.id} variant="outlined" color="primary">
+											<p>#{hash.interest}</p>
 										</Button>
 									))}
 								</Grid>
@@ -166,22 +157,6 @@ const Profile = () => {
 					</Grid>
 				</Container>
 			</main>
-			{/* Footer */}
-			<footer className={classes.footer}>
-				<Typography variant="h6" align="center" gutterBottom>
-					Footer
-				</Typography>
-				<Typography
-					variant="subtitle1"
-					align="center"
-					color="textSecondary"
-					component="p"
-				>
-					Something here to give the footer a purpose!
-				</Typography>
-				<Copyright />
-			</footer>
-			{/* End footer */}
 		</>
 	)
 }

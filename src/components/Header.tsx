@@ -16,9 +16,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import Theme from '../Theme'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((Theme) => ({
 	list: {
 		width: 250,
 	},
@@ -30,10 +29,10 @@ const useStyles = makeStyles({
 		textDecoration: 'none',
 	},
 	menuButton: {
-		padding: '10px',
+		padding: Theme.spacing(1),
 	},
 	menuTitle: {
-		padding: '10px',
+		padding: Theme.spacing(1),
 	},
 	menuRight: {
 		marginLeft: '0',
@@ -41,9 +40,9 @@ const useStyles = makeStyles({
 			marginLeft: 'auto',
 		},
 	},
-})
+}))
 
-const SwipeableTemporaryDrawer = () => {
+const Header = () => {
 	const classes = useStyles()
 	const [state, setState] = React.useState({
 		top: false,
@@ -87,7 +86,7 @@ const SwipeableTemporaryDrawer = () => {
 		>
 			<List>
 				{menuItems.map((item) => (
-					<NavLink to={item.url} className={classes.menuItem}>
+					<NavLink key={item.name} to={item.url} className={classes.menuItem}>
 						<ListItem button key={item.url}>
 							<ListItemText primary={item.name} />
 						</ListItem>
@@ -153,7 +152,5 @@ const SwipeableTemporaryDrawer = () => {
 		</AppBar>
 	)
 }
-
-const Header = () => <SwipeableTemporaryDrawer />
 
 export default Header
