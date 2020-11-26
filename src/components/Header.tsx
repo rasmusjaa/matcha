@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import { Helmet } from 'react-helmet-async'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import MenuItem from '@material-ui/core/MenuItem'
 import Badge from '@material-ui/core/Badge'
@@ -41,6 +42,25 @@ const useStyles = makeStyles((Theme) => ({
 		},
 	},
 }))
+
+interface TitleParams {
+	title: string
+}
+
+const TitleAnnouncer = () => {
+	const [title, setTitle] = useState<string>('')
+	const onHelmetChange = (newTitle: TitleParams) => {
+		setTitle(newTitle.title)
+	}
+	return (
+		<>
+			<Typography variant="h5" component="p">
+				{title}
+			</Typography>
+			<Helmet onChangeClientState={onHelmetChange} />
+		</>
+	)
+}
 
 const Header = () => {
 	const classes = useStyles()
@@ -118,7 +138,7 @@ const Header = () => {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" className={classes.menuTitle}>
-						News
+						<TitleAnnouncer />
 					</Typography>
 					<MenuItem className={classes.menuRight}>
 						<IconButton color="inherit">
