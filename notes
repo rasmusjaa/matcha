@@ -50,6 +50,7 @@ users           crud
     location
     list of #interests
 	profile picture id
+    pic_ids
     logged in
     last login timestamp
 photos			crd
@@ -60,6 +61,7 @@ likes			crd
     timestamp
     is being liked id
     liker id
+    isLike boolean
 chat			cr
     comment id
     timestamp

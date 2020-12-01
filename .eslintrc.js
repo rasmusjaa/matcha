@@ -58,14 +58,29 @@ module.exports = {
 			'never'
 		],
 		'@typescript-eslint/camelcase': 'off',
-		'no-expplcit-any': 'off' // poist
+		'no-expplcit-any': 'off', // poist,
+		"@typescript-eslint/ban-types": ["error",
+			{
+				"types": {
+					"String": true,
+					"Boolean": true,
+					"Number": true,
+					"Symbol": true,
+					"{}": true,
+					"Object": true,
+					"object": true,
+					"Function": false,
+				},
+				"extendDefaults": true
+			}
+		]
 	},
-	'overrides': [
-	{
-		'files': ['*.ts', '*.tsx'],
-		'rules': {
-			'@typescript-eslint/explicit-module-boundary-types': ['off']
-		}
-	}
-  ]
+	overrides: [
+		{
+			'files': ['*.ts', '*.tsx'],
+			'rules': {
+				'@typescript-eslint/explicit-module-boundary-types': ['off']
+			}
+		},
+	],
 };

@@ -4,28 +4,28 @@ import axios from 'axios'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 // import Link from '@material-ui/core/Link'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((Theme) => ({
 	icon: {
-		marginRight: theme.spacing(2),
+		marginRight: Theme.spacing(2),
 	},
 	heroContent: {
-		backgroundColor: theme.palette.background.paper,
-		padding: theme.spacing(8, 0, 6),
+		backgroundColor: Theme.palette.background.paper,
+		padding: Theme.spacing(8, 0, 6),
 	},
 	divWithMargin: {
-		marginTop: theme.spacing(4),
+		marginTop: Theme.spacing(4),
 	},
 	cardGrid: {
-		paddingTop: theme.spacing(8),
-		paddingBottom: theme.spacing(8),
+		paddingTop: Theme.spacing(8),
+		paddingBottom: Theme.spacing(8),
 	},
 	card: {
 		height: '100%',
@@ -34,7 +34,10 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 	},
 	cardMedia: {
-		paddingTop: '56.25%', // 16:9
+		marginTop: Theme.spacing(4),
+		paddingTop: '100%', // 16:9
+		height: '100%',
+		backgroundSize: 'contain',
 	},
 	cardContent: {
 		flexGrow: 1,
@@ -46,29 +49,118 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '3em',
 		margin: '0 10px',
 	},
+	interest: {
+		backgroundColor: Theme.palette.primary.main,
+		padding: Theme.spacing(0.5),
+		paddingLeft: Theme.spacing(1.5),
+		paddingRight: Theme.spacing(1.5),
+		margin: Theme.spacing(0.5),
+		textDecoration: 'none',
+		borderRadius: '15%',
+		display: 'inline-grid',
+	},
 }))
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-interface Hashtag {
+interface ProfileInfo {
 	id: number
-	interest: string
+	email: string
+	username: string
+	password: string
+	name: {
+		first: string
+		last: string
+	}
+	birth_date: Date
+	gender: string
+	sexual_preferences: string[]
+	biography: string
+	fame: number
+	test: string
+	location: string
+	interests: number[]
+	profile_pic_id: number
+	pic_ids: number[]
+	logged_in: boolean
+	last_login_timestamp: Date
+}
+
+const Name = ({ name = '' }) => {
+	return (
+		<Typography
+			component="h1"
+			variant="h2"
+			align="center"
+			color="textPrimary"
+			gutterBottom
+		>
+			{name}
+		</Typography>
+	)
+}
+
+const getInterests = (ids: number[] = [], setHashtags: Function) => {
+	const interests: number[] = []
+	const promises: Promise<void>[] = []
+	ids.forEach((id) => {
+		promises.push(
+			axios
+				.get(`http://localhost:3001/interests/${id}`)
+				.then((response) => {
+					interests.push(response.data.interest)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		)
+	})
+	Promise.all(promises).then(() => setHashtags(interests))
+}
+
+const getUserPics = (ids: number[] = [], setUserPics: Function) => {
+	const userPics: number[] = []
+	const promises: Promise<void>[] = []
+	ids.forEach((id) => {
+		promises.push(
+			axios
+				.get(`http://localhost:3001/user_pics/${id}`)
+				.then((response) => {
+					userPics.push(response.data.id)
+				})
+				.catch((error) => {
+					console.log(error)
+				})
+		)
+	})
+	Promise.all(promises).then(() => setUserPics(userPics))
+}
+
+const getProfileInfo = async (
+	id: number,
+	setProfile: Function,
+	setHashtags: Function,
+	setUserPics: Function
+) => {
+	await axios
+		.get(`http://localhost:3001/users/${id}`)
+		.then((response) => {
+			setProfile(response.data)
+			getInterests(response.data.interests, setHashtags)
+			getUserPics(response.data.user_pics, setUserPics)
+		})
+		.catch((error) => {
+			console.log(error)
+		})
 }
 
 const Profile = () => {
 	const classes = useStyles()
-	const [hashtags, setHashtags] = useState<Hashtag[]>([])
-	useEffect(() => {
-		axios
-			.get('http://localhost:3001/interests')
-			.then((response) => {
-				setHashtags(response.data)
-			})
-			.catch((error) => {
-				console.log(error)
-			})
-	}, [])
+	const [hashtags, setHashtags] = useState<string[]>([])
+	const [profileInfo, setProfile] = useState<ProfileInfo>()
+	const [userPics, setUserPics] = useState<number[]>([])
 
+	useEffect(() => {
+		getProfileInfo(1, setProfile, setHashtags, setUserPics)
+	}, [])
 	return (
 		<>
 			<Helmet>
@@ -77,78 +169,48 @@ const Profile = () => {
 			<main>
 				<Container className={classes.cardGrid} maxWidth="md">
 					<Container maxWidth="sm">
-						<Typography
-							component="h1"
-							variant="h2"
-							align="center"
-							color="textPrimary"
-							gutterBottom
-						>
-							Per (HIM)
-						</Typography>
+						<Name name={profileInfo?.name.first} />
 						<Card className={classes.card}>
 							<CardMedia
 								component="img"
-								image="https://images.unsplash.com/photo-1578305871734-698fd02cd6f9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=818&q=80"
+								image={`/user_pics/${profileInfo?.profile_pic_id}.jpg`}
 								title="Your profile picture"
 							/>
-							<CardActions className={classes.cardActions}>
-								<Button size="small" color="primary">
-									Edit
-								</Button>
-							</CardActions>
 						</Card>
 						<div className={classes.divWithMargin}>
 							<Grid container spacing={2} justify="center">
-								<Typography
-									variant="h5"
-									align="center"
-									color="textSecondary"
-									paragraph
-								>
-									Short biography that is editable is the user is viewing their
-									own profile
-								</Typography>
-								<Button variant="contained" color="primary">
-									Edit
-								</Button>
-							</Grid>
-						</div>
-						<div className={classes.divWithMargin}>
-							<Grid container spacing={2} justify="center">
-								<Grid item>
-									{hashtags.map((hash) => (
-										<Button key={hash.id} variant="outlined" color="primary">
-											<p>#{hash.interest}</p>
-										</Button>
-									))}
+								<Grid item xs={12}>
+									<Typography
+										variant="h5"
+										align="center"
+										color="textSecondary"
+										paragraph
+									>
+										{profileInfo?.biography}
+									</Typography>
 								</Grid>
-								<Grid item>
-									<Button variant="contained" color="primary">
-										Add hashtag
-									</Button>
+								<Grid item xs={12}>
+									{hashtags.map((hash) => (
+										<Chip
+											key={hash}
+											color="primary"
+											variant="outlined"
+											label={`#${hash}`}
+										/>
+									))}
 								</Grid>
 							</Grid>
 						</div>
 					</Container>
 					<Grid container spacing={4}>
-						{cards.map((card) => (
-							<Grid item key={card} xs={12} sm={6} md={4}>
+						{userPics.map((pic) => (
+							<Grid item key={pic} xs={12} sm={6} md={4}>
 								<Card className={classes.card}>
 									<CardMedia
 										className={classes.cardMedia}
-										image="https://source.unsplash.com/random"
+										image={`/user_pics/${pic}.jpg`}
 										title="Image title"
 									/>
-									<CardContent className={classes.cardContent}>
-										<Typography gutterBottom variant="h5" component="h2">
-											Heading
-										</Typography>
-										<Typography>
-											This is a media card. You can use this section to describe
-											the content.
-										</Typography>
-									</CardContent>
 									<CardActions>
 										<Button size="small" color="primary">
 											View
