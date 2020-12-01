@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		padding: theme.spacing(8, 0, 6),
 	},
-	heroButtons: {
+	divWithMargin: {
 		marginTop: theme.spacing(4),
 	},
 	cardGrid: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	card: {
 		height: '100%',
 		width: '100%',
-		display: 'block',
+		display: 'flex',
 		flexDirection: 'column',
 	},
 	cardMedia: {
@@ -84,12 +84,12 @@ const Profile = () => {
 							color="textPrimary"
 							gutterBottom
 						>
-							Your profile &#9728;&#65039;
+							Per (HIM)
 						</Typography>
 						<Card className={classes.card}>
 							<CardMedia
-								className={classes.cardMedia}
-								image="https://source.unsplash.com/random"
+								component="img"
+								image="https://images.unsplash.com/photo-1578305871734-698fd02cd6f9?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=818&q=80"
 								title="Your profile picture"
 							/>
 							<CardActions className={classes.cardActions}>
@@ -98,17 +98,23 @@ const Profile = () => {
 								</Button>
 							</CardActions>
 						</Card>
-						<Typography
-							variant="h5"
-							align="center"
-							color="textSecondary"
-							paragraph
-						>
-							Something short and leading about the collection below—its
-							contents, the creator, etc. Make it short and sweet, but not too
-							short so folks don&apos;t simply skip over it entirely.
-						</Typography>
-						<div className={classes.heroButtons}>
+						<div className={classes.divWithMargin}>
+							<Grid container spacing={2} justify="center">
+								<Typography
+									variant="h5"
+									align="center"
+									color="textSecondary"
+									paragraph
+								>
+									Short biography that is editable is the user is viewing their
+									own profile
+								</Typography>
+								<Button variant="contained" color="primary">
+									Edit
+								</Button>
+							</Grid>
+						</div>
+						<div className={classes.divWithMargin}>
 							<Grid container spacing={2} justify="center">
 								<Grid item>
 									{hashtags.map((hash) => (
