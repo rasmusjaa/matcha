@@ -34,6 +34,8 @@
 
 // postgeSQL, requests by hand
 
+DATABASEEN UTC
+
 database rakenne:
 users           crud
     id

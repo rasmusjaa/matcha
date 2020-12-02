@@ -63,7 +63,7 @@ module.exports = {
 			{
 				"types": {
 					"String": true,
-					"Boolean": true,
+					"Boolean": false,
 					"Number": true,
 					"Symbol": true,
 					"{}": true,
