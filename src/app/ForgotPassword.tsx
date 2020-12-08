@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -11,7 +12,7 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
-import Copyright from './Copyright'
+import Copyright from '../components/Copyright'
 
 type State = {
 	username: string
@@ -118,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const SignInSide = () => {
+const ForgotPassword = () => {
 	const classes = useStyles()
 	const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -135,9 +136,6 @@ const SignInSide = () => {
 			})
 		}
 	}, [state.username, state.password])
-
-	// eslint-disable-next-line
-	console.log('uname:', state.username, 'pwd:', state.password)
 
 	const handleLogin = () => {
 		if (state.username === 'abc@email.com' && state.password === 'password') {
@@ -178,83 +176,94 @@ const SignInSide = () => {
 	}
 
 	return (
-		<Grid container component="main" className={classes.root}>
-			<CssBaseline />
-			<Grid item xs={false} sm={4} md={7} className={classes.image} />
-			<Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-				<div className={classes.paper}>
-					<Avatar className={classes.avatar}>
-						<p className={classes.logo}>&#127861;</p>
-					</Avatar>
-					<Typography component="h1" variant="h5">
-						Sign in
-					</Typography>
-					<form className={classes.form} noValidate>
-						<TextField
-							error={state.isError}
-							fullWidth
-							id="username"
-							type="email"
-							label="Email Address"
-							variant="outlined"
-							margin="normal"
-							required
-							name="email"
-							autoComplete="email"
-							autoFocus
-							onChange={handleUsernameChange}
-							onKeyPress={handleKeyPress}
-						/>
-						<TextField
-							error={state.isError}
-							fullWidth
-							id="password"
-							type="password"
-							label="Password"
-							variant="outlined"
-							margin="normal"
-							required
-							name="password"
-							autoComplete="current-password"
-							helperText={state.helperText}
-							onChange={handlePasswordChange}
-							onKeyPress={handleKeyPress}
-						/>
-						<FormControlLabel
-							control={<Checkbox value="remember" color="primary" />}
-							label="Remember me"
-						/>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-							className={classes.submit}
-							onClick={handleLogin}
-							disabled={state.isButtonDisabled}
-						>
-							Sign In
-						</Button>
-						<Grid container>
-							<Grid item xs>
-								<Link href="#test" variant="body2">
-									Forgot password?
-								</Link>
-							</Grid>
-							<Grid item>
-								<Link href="#test" variant="body2">
-									Sign Up
-								</Link>
-							</Grid>
-						</Grid>
-						<Box mt={5}>
-							<Copyright />
-						</Box>
-					</form>
-				</div>
-			</Grid>
-		</Grid>
+		<>
+			<Helmet>
+				<title>Profile</title>
+			</Helmet>
+			<main>
+				<Grid container component="main" className={classes.root}>
+					<CssBaseline />
+					<Grid item xs={false} sm={4} md={7} className={classes.image} />
+					<Grid
+						item
+						xs={12}
+						sm={8}
+						md={5}
+						component={Paper}
+						elevation={6}
+						square
+					>
+						<div className={classes.paper}>
+							<Avatar className={classes.avatar}>
+								<p className={classes.logo}>&#127861;</p>
+							</Avatar>
+							<Typography component="h1" variant="h5">
+								Reset password
+							</Typography>
+							<form className={classes.form} noValidate>
+								<TextField
+									error={state.isError}
+									fullWidth
+									id="username"
+									type="email"
+									label="Email Address"
+									variant="outlined"
+									margin="normal"
+									required
+									name="email"
+									autoComplete="email"
+									autoFocus
+									onChange={handleUsernameChange}
+									onKeyPress={handleKeyPress}
+								/>
+								<TextField
+									error={state.isError}
+									fullWidth
+									id="password"
+									type="password"
+									label="Username"
+									variant="outlined"
+									margin="normal"
+									required
+									name="password"
+									autoComplete="current-password"
+									helperText={state.helperText}
+									onChange={handlePasswordChange}
+									onKeyPress={handleKeyPress}
+								/>
+								<Button
+									type="submit"
+									fullWidth
+									variant="contained"
+									color="primary"
+									className={classes.submit}
+									onClick={handleLogin}
+									disabled={state.isButtonDisabled}
+								>
+									Send
+								</Button>
+								<Grid container>
+									<Grid item xs>
+										<Link href="#test" variant="body2">
+											Help
+										</Link>
+									</Grid>
+									<Grid item>
+										<Link href="/create" variant="body2">
+											Sign Up
+										</Link>
+									</Grid>
+								</Grid>
+								<Box mt={5}>
+									<Copyright />
+								</Box>
+							</form>
+						</div>
+					</Grid>
+				</Grid>
+			</main>
+		</>
 	)
 }
 
-export default SignInSide
+export default ForgotPassword
