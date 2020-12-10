@@ -23,7 +23,10 @@
 			],
 			"biography": "this is my story",
 			"fame": 99,
-			"location": "Helsinki",
+			"location": [
+				60.1699,
+				24.9384
+			],
 			"interests": [1, 2, 3],
 			"profile_pic_file": "img1",
 			"user_pics": [1, 2, 3, 4],
@@ -32,12 +35,12 @@
 		},
 		{
 			"id": 2,
-			"email": "per@per.per",
-			"username": "per",
+			"email": "pelle@pelle.pe",
+			"username": "pelle",
 			"password": "",
 			"name": {
 				"first": "Pelle",
-				"last": "Persson"
+				"last": "Pajapää"
 			},
 			"birth_date": "1994-02-28T21:00:00.000Z",
 			"gender": "m",
@@ -46,7 +49,10 @@
 			],
 			"biography": "I am an old gentleman looking for some company",
 			"fame": 5,
-			"location": "Hell",
+			"location": [
+				62.2426,
+				25.7473
+			],
 			"interests": [
 				6, 7
 			],
@@ -71,7 +77,10 @@
 			],
 			"biography": "snap snap",
 			"fame": 75,
-			"location": "Rovaniemi",
+			"location": [
+				66.5039,
+				25.7294
+			],
 			"interests": [
 				5, 8
 			],

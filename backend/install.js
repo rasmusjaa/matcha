@@ -19,12 +19,12 @@ function createTables(){
 		);
 
 		CREATE TYPE location AS (
-			latitude DECIMAL(10, 8),
-			longitude DECIMAL(11, 8)
+			latitude FLOAT,
+			longitude FLOAT
 		);
 
 		CREATE TABLE users (
-			id INTEGER PRIMARY KEY,
+			id SERIAL PRIMARY KEY,
 			email VARCHAR(254) UNIQUE NOT NULL,
 			username VARCHAR(30) UNIQUE NOT NULL,
 			password VARCHAR(30) NOT NULL,
