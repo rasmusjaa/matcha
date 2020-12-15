@@ -30,17 +30,14 @@ interface ProfileInfo {
 	email: string
 	username: string
 	password: string
-	name: {
-		first: string
-		last: string
-	}
+	name: string[]
 	birth_date: string
-	gender: string
-	sexual_preferences: string[]
+	gender: number
+	sexual_preferences: number[]
 	biography: string
 	fame: number
 	test: string
-	location: string
+	location: string[]
 	interests: number[]
 	profile_pic_file: string
 	pic_ids: number[]
@@ -55,9 +52,10 @@ const Profile = () => {
 	const [userPics, setUserPics] = useState<string[]>([])
 
 	useEffect(() => {
-		getProfileInfo(3, setProfile, setHashtags, setUserPics)
+		getProfileInfo(1, setProfile, setHashtags, setUserPics)
 	}, [])
 	const age = calculateAge(profileInfo?.birth_date)
+	console.log(profileInfo)
 	return (
 		<>
 			<Helmet>
@@ -67,8 +65,12 @@ const Profile = () => {
 				<Container className={classes.cardGrid} maxWidth="md">
 					<Container maxWidth="sm">
 						<Grid container spacing={2} justify="center">
-							<Name name={profileInfo?.name.first} />
-							<Fame fame={profileInfo?.fame.toString()} />
+							<Name
+								name={profileInfo?.name ? profileInfo?.name[0] : 'no name'}
+							/>
+							<Fame
+								fame={profileInfo?.fame ? profileInfo?.fame.toString() : '0'}
+							/>
 							<LoginStatus
 								loggedIn={profileInfo?.logged_in}
 								lastLogin={profileInfo?.last_login_timestamp}
@@ -77,7 +79,14 @@ const Profile = () => {
 						<ProfileImage profilePic={profileInfo?.profile_pic_file} />
 						<div className={classes.divWithMargin}>
 							<Grid container spacing={2} justify="center">
-								<AgeLocation age={age} location={profileInfo?.location} />
+								<AgeLocation
+									age={age}
+									location={
+										profileInfo?.location
+											? profileInfo?.location[0]
+											: 'no location'
+									}
+								/>
 								<ProfileBio biography={profileInfo?.biography} />
 								<Hashtags hashtags={hashtags} />
 							</Grid>

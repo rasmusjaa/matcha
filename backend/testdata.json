@@ -1,0 +1,118 @@
+{
+	"testusers": [
+		{
+			"email": "camilla.leisti@gmail.com",
+			"username": "camilla",
+			"password": "camilla",
+			"name": ["Camilla", "Leisti"],
+			"birth_date": "1993-07-20T21:00:00.000Z",
+			"gender": 1,
+			"sexual_preferences": [
+				1, 2, 3
+			],
+			"biography": "this is my story",
+			"location": [60.1699, 24.9384],
+			"interests": [1, 2, 3],
+			"profile_pic_file": "img1",
+			"user_pics": [1, 2, 3, 4]
+		},
+		{
+			"email": "rasmus@lense.fi",
+			"username": "rasmus",
+			"password": "rasmus",
+			"name": [ "Rasmus", "Jaakonmaki" ],
+			"birth_date": "1989-11-05T21:00:00.000Z",
+			"gender": 2,
+			"sexual_preferences": [
+				1
+			],
+			"biography": "this is not my story",
+			"location": [60.2699, 25.9384],
+			"interests": [2, 3, 4, 5],
+			"profile_pic_file": "img5",
+			"user_pics": [5, 6]
+		},
+		{
+			"email": "cc.amiils@gmail.com",
+			"username": "userina",
+			"password": "userina",
+			"name": ["User", "Userina"],
+			"birth_date": "1985-01-06T21:00:00.000Z",
+			"gender": 1,
+			"sexual_preferences": [	2 ],
+			"biography": "i am a good user",
+			"location": [62.2426, 25.7473],
+			"interests": [6, 7, 8],
+			"profile_pic_file": "img7",
+			"user_pics": [7, 8]
+		}
+	],
+	"interests": [
+		{
+			"id": 1,
+			"interest": "cats"
+		},
+		{
+			"id": 2,
+			"interest": "books"
+		},
+		{
+			"id": 3,
+			"interest": "wine"
+		},
+		{
+			"id": 4,
+			"interest": "airplanesAndEverythingAboutTheSky"
+		},
+		{
+			"id": 5,
+			"interest": "iliketurtles"
+		},
+		{
+			"id": 6,
+			"interest": "cars"
+		},
+		{
+			"id": 7,
+			"interest": "flowers"
+		},
+		{
+			"id": 8,
+			"interest": "cameras"
+		}
+	],
+	"user_pics":  [
+		{
+			"filename": "img1",
+			"user_id": 1
+		},
+		{
+			"filename": "img2",
+			"user_id": 1
+		},
+		{
+			"filename": "img3",
+			"user_id": 1
+		},
+		{
+			"filename": "img4",
+			"user_id": 1
+		},
+		{
+			"filename": "img5",
+			"user_id": 2
+		},
+		{
+			"filename": "img6",
+			"user_id": 2
+		},
+		{
+			"filename": "img7",
+			"user_id": 2
+		},
+		{
+			"filename": "img8",
+			"user_id": 2
+		}
+	]
+}

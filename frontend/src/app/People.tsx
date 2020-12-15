@@ -48,17 +48,14 @@ interface ProfileInfo {
 	email: string
 	username: string
 	password: string
-	name: {
-		first: string
-		last: string
-	}
+	name: string[]
 	birth_date: string
-	gender: string
-	sexual_preferences: string[]
+	gender: number
+	sexual_preferences: number[]
 	biography: string
 	fame: number
 	test: string
-	location: string
+	location: string[]
 	interests: number[]
 	profile_pic_file: string
 	pic_ids: number[]
@@ -98,6 +95,7 @@ const getUsers = async (setUsers: Function) => {
 	await axios
 		.get('http://localhost:3001/users')
 		.then((response) => {
+			console.log(response.data)
 			setUsers(response.data)
 		})
 		.catch((error) => {
@@ -174,11 +172,11 @@ const People = () => {
 									</Grid>
 									<CardContent className={classes.cardContent}>
 										<Typography gutterBottom variant="h5" component="h2">
-											{user.name.first}
+											{user.name[0]}
 										</Typography>
 										<AgeLocationMini
 											age={calculateAge(user.birth_date)}
-											location={user.location}
+											location={user.location[0]}
 										/>
 										<Hashtags
 											hashtags={getInterestNames(user.interests, hashtags!)}
