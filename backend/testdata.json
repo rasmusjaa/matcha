@@ -3,7 +3,7 @@
 		{
 			"email": "camilla.leisti@gmail.com",
 			"username": "camilla",
-			"password": "camilla",
+			"password": "Camilla1",
 			"name": ["Camilla", "Leisti"],
 			"birth_date": "1993-07-20T21:00:00.000Z",
 			"gender": 1,
@@ -19,7 +19,7 @@
 		{
 			"email": "rasmus@lense.fi",
 			"username": "rasmus",
-			"password": "rasmus",
+			"password": "Rrasmus1",
 			"name": [ "Rasmus", "Jaakonmaki" ],
 			"birth_date": "1989-11-05T21:00:00.000Z",
 			"gender": 2,
@@ -35,7 +35,7 @@
 		{
 			"email": "cc.amiils@gmail.com",
 			"username": "userina",
-			"password": "userina",
+			"password": "Userina1",
 			"name": ["User", "Userina"],
 			"birth_date": "1985-01-06T21:00:00.000Z",
 			"gender": 1,

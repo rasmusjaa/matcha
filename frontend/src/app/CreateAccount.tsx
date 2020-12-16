@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Grid from '@material-ui/core/Grid'
@@ -11,7 +10,6 @@ import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-// import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import Copyright from '../components/Copyright'
@@ -48,10 +46,22 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	message: {
+		margin: theme.spacing(3),
+		color: theme.palette.primary.main,
+	},
+	errorMessage: {
+		margin: theme.spacing(3),
+		color: 'red',
+	},
 }))
 
 const SignUp = () => {
 	const classes = useStyles()
+	const [submitResponse, setSubmitResponse] = useState({
+		text: '',
+		error: false,
+	})
 	const [signUpForm, setSignUpForm] = useState({
 		username: '',
 		firstName: '',
@@ -61,8 +71,7 @@ const SignUp = () => {
 	})
 	const submitCreateForm = (e: any) => {
 		e.preventDefault()
-		console.log('test')
-		createAccount(signUpForm)
+		createAccount(signUpForm, setSubmitResponse, setSignUpForm)
 	}
 	const onChange = (e: any) => {
 		setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value })
@@ -93,9 +102,18 @@ const SignUp = () => {
 							<Typography component="h1" variant="h5">
 								Sign up
 							</Typography>
+							<Typography
+								variant="h6"
+								className={
+									submitResponse.error ? classes.errorMessage : classes.message
+								}
+							>
+								{submitResponse.text}
+							</Typography>
 							<ValidatorForm
 								className={classes.form}
 								onSubmit={submitCreateForm}
+								instantValidate={false}
 							>
 								<TextValidator
 									value={signUpForm.username}
@@ -197,13 +215,13 @@ const SignUp = () => {
 									validators={[
 										'required',
 										'minStringLength:8',
-										'maxStringLength:254',
+										'maxStringLength:64',
 										'matchRegexp:^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])',
 									]}
 									errorMessages={[
 										'this field is required',
 										'Must be at least 8 characters',
-										'Must be at most 254 characters',
+										'Must be at most 64 characters',
 										'Must contain at least 1 number, 1 lowercase and one uppercase letter',
 									]}
 								/>

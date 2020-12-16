@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Paper from '@material-ui/core/Paper'
@@ -15,72 +14,6 @@ import Link from '@material-ui/core/Link'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import Copyright from '../components/Copyright'
 import signIn from '../services/signIn'
-
-type State = {
-	username: string
-	password: string
-	isButtonDisabled: boolean
-	helperText: string
-	isError: boolean
-}
-
-const initialState: State = {
-	username: '',
-	password: '',
-	isButtonDisabled: true,
-	helperText: '',
-	isError: false,
-}
-
-type Action =
-	| { type: 'setUsername'; payload: string }
-	| { type: 'setPassword'; payload: string }
-	| { type: 'setIsButtonDisabled'; payload: boolean }
-	| { type: 'loginSuccess'; payload: string }
-	| { type: 'loginFailed'; payload: string }
-	| { type: 'setIsError'; payload: boolean }
-
-const reducer = (state: State, action: Action): State => {
-	switch (action.type) {
-		case 'setUsername':
-			return {
-				...state,
-				username: action.payload,
-			}
-		case 'setPassword':
-			return {
-				...state,
-				password: action.payload,
-			}
-		case 'setIsButtonDisabled':
-			return {
-				...state,
-				isButtonDisabled: action.payload,
-			}
-		case 'loginSuccess':
-			return {
-				...state,
-				helperText: action.payload,
-				isError: false,
-			}
-		case 'loginFailed':
-			return {
-				...state,
-				helperText: action.payload,
-				isError: true,
-			}
-		case 'setIsError':
-			return {
-				...state,
-				isError: action.payload,
-			}
-		default:
-			return {
-				...state,
-				isError: true,
-			}
-	}
-}
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -125,16 +58,11 @@ const Login = () => {
 	const classes = useStyles()
 	const [loginInfo, setLoginInfo] = useState({
 		userName: '', // unique
-		firstName: '',
-		lastName: '',
-		email: '', // valid email
 		password: '',
 	})
 
 	const submitCreateForm = (e: any) => {
 		e.preventDefault()
-		console.log('test')
-		console.log(loginInfo)
 		signIn(loginInfo)
 	}
 	const onChange = (e: any) => {
@@ -207,12 +135,12 @@ const Login = () => {
 									autoComplete="current-password"
 									validators={[
 										'required',
-										'minStringLength:7',
+										'minStringLength:8',
 										'maxStringLength:254',
 									]}
 									errorMessages={[
 										'this field is required',
-										'Must be at least 7 characters',
+										'Must be at least 8 characters',
 										'Must be at most 254 characters',
 									]}
 								/>

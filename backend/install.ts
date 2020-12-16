@@ -25,7 +25,7 @@ function createTables(){
 			id SERIAL PRIMARY KEY,
 			email VARCHAR(254) UNIQUE NOT NULL,
 			username VARCHAR(30) UNIQUE NOT NULL,
-			password VARCHAR(30) NOT NULL,
+			password VARCHAR(64) NOT NULL,
 			name VARCHAR[] NOT NULL,
 			birth_date DATE,
 			gender INTEGER,
