@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -13,7 +13,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 // import Container from '@material-ui/core/Container'
 import Link from '@material-ui/core/Link'
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import Copyright from '../components/Copyright'
+import createAccount from '../services/createAccount'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -50,11 +52,26 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
 	const classes = useStyles()
+	const [signUpForm, setSignUpForm] = useState({
+		username: '',
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+	})
+	const submitCreateForm = (e: any) => {
+		e.preventDefault()
+		console.log('test')
+		createAccount(signUpForm)
+	}
+	const onChange = (e: any) => {
+		setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value })
+	}
 
 	return (
 		<>
 			<Helmet>
-				<title>Profile</title>
+				<title>Create Account</title>
 			</Helmet>
 			<main>
 				<Grid container component="main" className={classes.root}>
@@ -76,8 +93,36 @@ const SignUp = () => {
 							<Typography component="h1" variant="h5">
 								Sign up
 							</Typography>
-							<form className={classes.form} noValidate>
-								<TextField
+							<ValidatorForm
+								className={classes.form}
+								onSubmit={submitCreateForm}
+							>
+								<TextValidator
+									value={signUpForm.username}
+									onChange={onChange}
+									autoComplete="username"
+									name="username"
+									variant="outlined"
+									margin="normal"
+									required
+									fullWidth
+									id="username"
+									label="Username"
+									autoFocus
+									validators={[
+										'required',
+										'minStringLength:3',
+										'maxStringLength:50',
+									]}
+									errorMessages={[
+										'this field is required',
+										'Must be at least 3 characters',
+										'Must be at most 30 characters',
+									]}
+								/>
+								<TextValidator
+									value={signUpForm.firstName}
+									onChange={onChange}
 									autoComplete="fname"
 									name="firstName"
 									variant="outlined"
@@ -86,9 +131,20 @@ const SignUp = () => {
 									fullWidth
 									id="firstName"
 									label="First Name"
-									autoFocus
+									validators={[
+										'required',
+										'minStringLength:3',
+										'maxStringLength:50',
+									]}
+									errorMessages={[
+										'this field is required',
+										'Must be at least 2 characters',
+										'Must be at most 50 characters',
+									]}
 								/>
-								<TextField
+								<TextValidator
+									value={signUpForm.lastName}
+									onChange={onChange}
 									variant="outlined"
 									margin="normal"
 									required
@@ -97,8 +153,20 @@ const SignUp = () => {
 									label="Last Name"
 									name="lastName"
 									autoComplete="lname"
+									validators={[
+										'required',
+										'minStringLength:3',
+										'maxStringLength:50',
+									]}
+									errorMessages={[
+										'this field is required',
+										'Must be at least 2 characters',
+										'Must be at most 50 characters',
+									]}
 								/>
-								<TextField
+								<TextValidator
+									value={signUpForm.email}
+									onChange={onChange}
 									variant="outlined"
 									margin="normal"
 									required
@@ -107,8 +175,16 @@ const SignUp = () => {
 									label="Email Address"
 									name="email"
 									autoComplete="email"
+									validators={['required', 'isEmail', 'maxStringLength:254']}
+									errorMessages={[
+										'this field is required',
+										'Must be valid email',
+										'Must be at most 254 characters',
+									]}
 								/>
-								<TextField
+								<TextValidator
+									value={signUpForm.password}
+									onChange={onChange}
 									variant="outlined"
 									margin="normal"
 									required
@@ -118,12 +194,24 @@ const SignUp = () => {
 									type="password"
 									id="password"
 									autoComplete="current-password"
+									validators={[
+										'required',
+										'minStringLength:8',
+										'maxStringLength:254',
+										'matchRegexp:^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])',
+									]}
+									errorMessages={[
+										'this field is required',
+										'Must be at least 8 characters',
+										'Must be at most 254 characters',
+										'Must contain at least 1 number, 1 lowercase and one uppercase letter',
+									]}
 								/>
 								<FormControlLabel
 									control={
 										<Checkbox value="allowExtraEmails" color="primary" />
 									}
-									label="I want to receive inspiration, marketing promotions and updates via email."
+									label="I am ready."
 								/>
 								<Button
 									type="submit"
@@ -141,7 +229,7 @@ const SignUp = () => {
 										</Link>
 									</Grid>
 								</Grid>
-							</form>
+							</ValidatorForm>
 						</div>
 						<Box mt={5}>
 							<Copyright />

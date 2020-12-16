@@ -5,7 +5,7 @@ const NotFoundComponent = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Profile</title>
+				<title>404</title>
 			</Helmet>
 			<main>
 				<div>

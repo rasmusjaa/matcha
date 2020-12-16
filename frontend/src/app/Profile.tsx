@@ -55,7 +55,6 @@ const Profile = () => {
 		getProfileInfo(1, setProfile, setHashtags, setUserPics)
 	}, [])
 	const age = calculateAge(profileInfo?.birth_date)
-	console.log(profileInfo)
 	return (
 		<>
 			<Helmet>

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -12,7 +12,9 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import Copyright from '../components/Copyright'
+import signIn from '../services/signIn'
 
 type State = {
 	username: string
@@ -119,66 +121,30 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const SignInSide = () => {
+const Login = () => {
 	const classes = useStyles()
-	const [state, dispatch] = useReducer(reducer, initialState)
+	const [loginInfo, setLoginInfo] = useState({
+		userName: '', // unique
+		firstName: '',
+		lastName: '',
+		email: '', // valid email
+		password: '',
+	})
 
-	useEffect(() => {
-		if (state.username.trim() && state.password.trim()) {
-			dispatch({
-				type: 'setIsButtonDisabled',
-				payload: false,
-			})
-		} else {
-			dispatch({
-				type: 'setIsButtonDisabled',
-				payload: true,
-			})
-		}
-	}, [state.username, state.password])
-
-	const handleLogin = () => {
-		if (state.username === 'abc@email.com' && state.password === 'password') {
-			dispatch({
-				type: 'loginSuccess',
-				payload: 'Login Successfully',
-			})
-		} else {
-			dispatch({
-				type: 'loginFailed',
-				payload: 'Incorrect username or password',
-			})
-		}
+	const submitCreateForm = (e: any) => {
+		e.preventDefault()
+		console.log('test')
+		console.log(loginInfo)
+		signIn(loginInfo)
 	}
-
-	const handleKeyPress = (event: React.KeyboardEvent) => {
-		if (event.keyCode === 13 || event.which === 13) {
-			handleLogin()
-		}
-	}
-
-	const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (
-		event
-	) => {
-		dispatch({
-			type: 'setUsername',
-			payload: event.target.value,
-		})
-	}
-
-	const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = (
-		event
-	) => {
-		dispatch({
-			type: 'setPassword',
-			payload: event.target.value,
-		})
+	const onChange = (e: any) => {
+		setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
 	}
 
 	return (
 		<>
 			<Helmet>
-				<title>Profile</title>
+				<title>Sign In</title>
 			</Helmet>
 			<main>
 				<Grid container component="main" className={classes.root}>
@@ -200,36 +166,55 @@ const SignInSide = () => {
 							<Typography component="h1" variant="h5">
 								Sign in
 							</Typography>
-							<form className={classes.form} noValidate>
-								<TextField
-									error={state.isError}
-									fullWidth
-									id="username"
-									type="email"
-									label="Email Address"
+							<ValidatorForm
+								className={classes.form}
+								onSubmit={submitCreateForm}
+							>
+								<TextValidator
+									value={loginInfo.userName}
+									onChange={onChange}
+									autoComplete="username"
+									name="userName"
 									variant="outlined"
 									margin="normal"
 									required
-									name="email"
-									autoComplete="email"
+									fullWidth
+									id="userName"
+									label="Username"
 									autoFocus
-									onChange={handleUsernameChange}
-									onKeyPress={handleKeyPress}
+									validators={[
+										'required',
+										'minStringLength:3',
+										'maxStringLength:50',
+									]}
+									errorMessages={[
+										'this field is required',
+										'Must be at least 3 characters',
+										'Must be at most 30 characters',
+									]}
 								/>
-								<TextField
-									error={state.isError}
-									fullWidth
-									id="password"
-									type="password"
-									label="Password"
+								<TextValidator
+									value={loginInfo.password}
+									onChange={onChange}
 									variant="outlined"
 									margin="normal"
 									required
+									fullWidth
 									name="password"
+									label="Password"
+									type="password"
+									id="password"
 									autoComplete="current-password"
-									helperText={state.helperText}
-									onChange={handlePasswordChange}
-									onKeyPress={handleKeyPress}
+									validators={[
+										'required',
+										'minStringLength:7',
+										'maxStringLength:254',
+									]}
+									errorMessages={[
+										'this field is required',
+										'Must be at least 7 characters',
+										'Must be at most 254 characters',
+									]}
 								/>
 								<FormControlLabel
 									control={<Checkbox value="remember" color="primary" />}
@@ -241,8 +226,6 @@ const SignInSide = () => {
 									variant="contained"
 									color="primary"
 									className={classes.submit}
-									onClick={handleLogin}
-									disabled={state.isButtonDisabled}
 								>
 									Sign In
 								</Button>
@@ -258,10 +241,10 @@ const SignInSide = () => {
 										</Link>
 									</Grid>
 								</Grid>
-								<Box mt={5}>
-									<Copyright />
-								</Box>
-							</form>
+							</ValidatorForm>
+							<Box mt={5}>
+								<Copyright />
+							</Box>
 						</div>
 					</Grid>
 				</Grid>
@@ -270,4 +253,4 @@ const SignInSide = () => {
 	)
 }
 
-export default SignInSide
+export default Login

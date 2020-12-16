@@ -59,13 +59,28 @@ const createUser = (user: any) => {
 				reject(error)
 			}
 			else {
-				resolve(`A new User has been added added: ${results.rows[0]}`)
+				resolve(results.rows[0])
 			}
 			pool.end()
 		})
 	})
 }
 
+const getUser = (user: any) => {
+	const pool = createPool()
+	return new Promise(function(resolve, reject) {
+		pool.query(`SELECT * FROM users WHERE username = $1 AND password = $2 LIMIT 1`, [user.userName, user.password], (error: any, results: any) => {
+			if (error) {
+				reject(error)
+			} else {
+				resolve(results.rows[0])
+			}
+            pool.end()
+		})
+	}) 
+}
+
 export {
-	createUser
+	createUser,
+	getUser
 }

@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
-import { createUser } from './userApi'
+import { createUser, getUser } from './userApi'
 import { createInterest } from './interestApi'
 import { createImage } from './imageApi'
 import { getRowsFromTable, getRowFromTable, deleteWithId } from './commonApi'
@@ -31,7 +31,6 @@ app.get('/users', (req, res) => {
 app.get('/users/:id', (req, res) => {
 	getRowFromTable(req.params.id, 'users')
 	.then(response => {
-		console.log(response)
 		res.status(200).send(response);
 	})
 	.catch(error => {
@@ -40,12 +39,19 @@ app.get('/users/:id', (req, res) => {
 })
 
 app.post('/users', (req, res) => {
+	req.body.name = [req.body.firstName, req.body.lastName]
 	createUser(req.body)
 	.then(response => {
 		res.status(200).send(response);
 	})
 	.catch(error => {
-		res.status(500).send(error);
+		if (error.constraint === 'users_username_key')
+			res.status(200).send('username');
+		else if (error.constraint === 'users_email_key')
+			res.status(200).send('email');
+		else
+			res.status(500).send(error);
+
 	})
 })
 
@@ -135,6 +141,20 @@ app.delete('/user_images/:id', (req, res) => {
 		res.status(200).send(response);
 	})
 	.catch(error => {
+		res.status(500).send(error);
+	})
+})
+
+app.post('/signin', (req, res) => {
+	getUser(req.body)
+	.then(response => {
+		if (response)
+			res.status(200).send(response);
+		else
+			res.status(204).send('Not found');
+	})
+	.catch(error => {
+		console.log(error)
 		res.status(500).send(error);
 	})
 })

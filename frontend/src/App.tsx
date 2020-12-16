@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './Theme'
-import SignInSide from './app/SignInSide'
+import SignIn from './app/SignIn'
 import CreateAccount from './app/CreateAccount'
 import People from './app/People'
 import Profile from './app/Profile'
@@ -47,7 +47,7 @@ const App = () => {
 								<Header />
 								<div className="content">
 									<Switch>
-										<Route exact path="/" component={SignInSide} />
+										<Route exact path="/" component={SignIn} />
 										<Route path="/create" component={CreateAccount} />
 										<Route path="/browse" component={People} />
 										<Route path="/profile" component={Profile} />

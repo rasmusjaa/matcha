@@ -178,7 +178,7 @@ const ForgotPassword = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Profile</title>
+				<title>Forgot Password</title>
 			</Helmet>
 			<main>
 				<Grid container component="main" className={classes.root}>

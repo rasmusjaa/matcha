@@ -21,15 +21,12 @@ const getInterests = (ids: number[] = [], setHashtags: Function) => {
 const getUserPics = (ids: number[] = [], setUserPics: Function) => {
 	const userPics: string[] = []
 	const promises: Promise<void>[] = []
-	console.log('hep')
-	console.log(ids)
 	ids.forEach((id) => {
 		promises.push(
 			axios
 				.get(`http://localhost:3001/user_images/${id}`)
 				.then((response) => {
 					userPics.push(response.data.filename)
-					console.log('fn;', response.data.filename)
 				})
 				.catch((error) => {
 					console.log(error)
@@ -50,7 +47,6 @@ const getProfileInfo = async (
 		.then((response) => {
 			setProfile(response.data)
 			getInterests(response.data.interests, setHashtags)
-			console.log(response.data)
 			getUserPics(response.data.user_pics, setUserPics)
 		})
 		.catch((error) => {
