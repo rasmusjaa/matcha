@@ -4,9 +4,10 @@ import { createUser, getUser } from './userApi'
 import { createInterest } from './interestApi'
 import { createImage } from './imageApi'
 import { getRowsFromTable, getRowFromTable, deleteWithId } from './commonApi'
-import jwt from 'express-jwt'
 import jsonwebtoken from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
+
+import { errorHandler } from './utils/middleware'
 
 const app = express()
 const port = 3001
@@ -23,6 +24,20 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
 	next();
 });
+
+const signToken = (response: any) => {
+	const token = jsonwebtoken.sign(
+		{
+			userId: response.id,
+			username: response.username
+		},
+		jwtSecret,
+		{
+			expiresIn: '30s'
+		}
+	)
+	return token
+}
 
 app.post('/users', (req, res) => {
 	req.body.name = [req.body.firstName, req.body.lastName]
@@ -49,7 +64,7 @@ app.post('/signin', (req, res) => {
 			res.status(401).send('Wrong password');
 		}
 		else {
-			const token = jsonwebtoken.sign({ userId: response.id, username: response.username }, jwtSecret)
+			const token = signToken(response)
 			res.cookie('token', token, { httpOnly: true })
 			console.log(token)
 			res.status(200).json({ token });
@@ -63,16 +78,17 @@ app.post('/signin', (req, res) => {
 
 app.use(cookieParser())
 
-app.use(jwt({ secret: jwtSecret, algorithms: ['HS256'] }))
-
-app.get('/users', (req, res) => {
+app.get('/users', (req, res, next) => {
+	const cookies = req.cookies
+	const decodedToken: any = jsonwebtoken.verify(cookies['token'], jwtSecret)
 	getRowsFromTable('users')
-	.then(response => {
-		res.status(200).send(response);
-	})
-	.catch(error => {
-		res.status(500).send(error);
-	})
+		.then(response => {
+			console.log(response)
+			res.status(200).send(response);
+		})
+		.catch(error => {
+			res.status(500).send(error);
+		})
 })
 
 app.get('/users/:id', (req, res) => {
@@ -175,11 +191,7 @@ app.delete('/user_images/:id', (req, res) => {
 	})
 })
 
-app.get('/jwt', (req, res) => {
-	res.json({
-	  token: jsonwebtoken.sign({ user: 'johndoe' }, jwtSecret)
-	});
-});
+app.use(errorHandler)
 
 app.listen(port, () => {
 	console.log(`App running on port ${port}.`)
