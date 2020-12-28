@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const signIn = async (formdata: { userName: string; password: string }) => {
 	try {
-		const response = await axios.post('/signin', formdata)
+		const response = await axios.post('/api/signin', formdata)
 		if (response.status === 200) return true
 	} catch (err) {
 		return false

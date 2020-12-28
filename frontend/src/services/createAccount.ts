@@ -12,7 +12,7 @@ const createAccount = (
 	setSignUpForm: Function
 ) => {
 	axios
-		.post('/users', formdata)
+		.post('/api/users', formdata)
 		.then((response) => {
 			console.log('here')
 			console.log(response.data)

@@ -1,5 +1,5 @@
 import createPool from '../pool'
-import { deleteWithId } from './commonApi'
+import { deleteWithId } from './commonDBFunctions'
 
 const createImage = (image: any) => {
 	const pool = createPool()

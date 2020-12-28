@@ -1,3 +1,11 @@
+const requestLogger = (request: any, response: any, next: Function) => {
+	console.log('Method:', request.method)
+	console.log('Path:  ', request.path)
+	console.log('Body:  ', request.body)
+	console.log('---')
+	next()
+}
+
 const errorHandler = (error: any, request: any, response: any, next: Function) => {
 	console.log('error name: ', error.name)
     
@@ -12,5 +20,6 @@ const errorHandler = (error: any, request: any, response: any, next: Function) =
 }
 
 export {
-	errorHandler
+	errorHandler,
+	requestLogger
 }

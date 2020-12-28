@@ -25,10 +25,9 @@ module.exports = {
 	  ecmaFeatures: {
 		jsx: true,
 	  },
-	  ecmaVersion: es5,
 	  sourceType: 'module',
 	  tsconfigRootDir: __dirname,
-	  project: './tsconfig.json',
+	  project: './tsconfig.eslint.json',
 	},
 	rules: {
 		"no-console": 0,
@@ -59,7 +58,7 @@ module.exports = {
 			'never'
 		],
 		'@typescript-eslint/camelcase': 'off',
-		'no-expplcit-any': 'off', // poist,
+		'@typescript-eslint/no-explicit-any': 'off', //
 		"@typescript-eslint/ban-types": ["error",
 			{
 				"types": {

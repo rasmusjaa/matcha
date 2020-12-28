@@ -82,7 +82,7 @@ const getInterestNames = (
 
 const getInterests = async (setHashtags: Function) => {
 	await axios
-		.get('/interests')
+		.get('/api/interests')
 		.then((response) => {
 			setHashtags(response.data)
 		})
@@ -93,7 +93,7 @@ const getInterests = async (setHashtags: Function) => {
 
 const getUsers = async (setUsers: Function) => {
 	await axios
-		.get('/users')
+		.get('/api/users')
 		.then((response) => {
 			const usersWithData = response.data.filter(
 				(user: any) =>

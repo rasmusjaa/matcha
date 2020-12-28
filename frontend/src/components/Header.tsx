@@ -92,6 +92,10 @@ const Header = () => {
 			name: '404',
 			url: '/404',
 		},
+		{
+			name: 'Sign out',
+			url: '/?logout=true',
+		},
 	]
 
 	const toggleDrawer = (anchor: string, open: boolean) => () => {

@@ -53,6 +53,7 @@ const App = () => {
 										<Route path="/profile" component={Profile} />
 										<Route path="/forgot" component={ForgotPassword} />
 										<Route path="/404" component={NotFoundComponent} />
+										<Route path="/" component={SignIn} />
 										<Redirect from="/*" to="/404" />
 									</Switch>
 								</div>

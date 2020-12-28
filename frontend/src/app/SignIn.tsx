@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -15,6 +15,7 @@ import Link from '@material-ui/core/Link'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import Copyright from '../components/Copyright'
 import signIn from '../services/signIn'
+import clearCookies from '../services/signOut'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -59,8 +60,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const Login = () => {
+const useQuery = () => {
+	return new URLSearchParams(useLocation().search)
+}
+
+const SignIn = () => {
 	const classes = useStyles()
+	const query = useQuery()
+	if (query.get('logout')) clearCookies()
 	const [submitResponse, setSubmitResponse] = useState('')
 	const [redirect, setRedirect] = useState(false)
 	const [loginInfo, setLoginInfo] = useState({
@@ -202,4 +209,4 @@ const Login = () => {
 	)
 }
 
-export default Login
+export default SignIn
