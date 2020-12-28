@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
-import { createUser, getUser } from './userApi'
-import { createInterest } from './interestApi'
-import { createImage } from './imageApi'
-import { getRowsFromTable, getRowFromTable, deleteWithId } from './commonApi'
+import { createUser, getUser } from './controllers/userApi'
+import { createInterest } from './controllers/interestApi'
+import { createImage } from './controllers/imageApi'
+import { getRowsFromTable, getRowFromTable, deleteWithId } from './controllers/commonApi'
 import jsonwebtoken from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
 

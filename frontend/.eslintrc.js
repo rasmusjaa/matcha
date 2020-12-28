@@ -25,9 +25,10 @@ module.exports = {
 	  ecmaFeatures: {
 		jsx: true,
 	  },
-	  ecmaVersion: 2018,
+	  ecmaVersion: es5,
 	  sourceType: 'module',
-	  project: './tsconfig.eslint.json',
+	  tsconfigRootDir: __dirname,
+	  project: './tsconfig.json',
 	},
 	rules: {
 		"no-console": 0,

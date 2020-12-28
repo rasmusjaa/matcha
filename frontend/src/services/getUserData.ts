@@ -6,7 +6,7 @@ const getInterests = (ids: number[] = [], setHashtags: Function) => {
 	ids.forEach((id) => {
 		promises.push(
 			axios
-				.get(`http://localhost:3001/interests/${id}`)
+				.get(`/interests/${id}`)
 				.then((response) => {
 					interests.push(response.data.interest)
 				})
@@ -24,7 +24,7 @@ const getUserPics = (ids: number[] = [], setUserPics: Function) => {
 	ids.forEach((id) => {
 		promises.push(
 			axios
-				.get(`http://localhost:3001/user_images/${id}`)
+				.get(`/user_images/${id}`)
 				.then((response) => {
 					userPics.push(response.data.filename)
 				})
@@ -43,7 +43,7 @@ const getProfileInfo = async (
 	setUserPics: Function
 ) => {
 	await axios
-		.get(`http://localhost:3001/users/${id}`)
+		.get(`/users/${id}`)
 		.then((response) => {
 			setProfile(response.data)
 			getInterests(response.data.interests, setHashtags)

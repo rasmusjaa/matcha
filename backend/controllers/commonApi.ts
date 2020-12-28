@@ -1,4 +1,4 @@
-import createPool from './pool'
+import createPool from '../pool'
 
 const getRowsFromTable = (table: string) => {
 	const pool = createPool()

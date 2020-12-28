@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import createPool from './pool'
+import createPool from '../pool'
 
 const createUser = (user: any) => {
 //     user.interest: string[]

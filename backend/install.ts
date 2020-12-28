@@ -1,8 +1,8 @@
 import { Pool } from 'pg'
 import * as testdata from './testdata.json'
-import { createUser } from './userApi'
-import { createInterest } from './interestApi'
-import { createImage } from './imageApi'
+import { createUser } from './controllers/userApi'
+import { createInterest } from './controllers/interestApi'
+import { createImage } from './controllers/imageApi'
 import createPool from './pool'
 
 function addTestData(){

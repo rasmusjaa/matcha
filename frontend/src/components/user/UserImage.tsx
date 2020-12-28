@@ -21,6 +21,7 @@ const useStyles = makeStyles((Theme) => ({
 
 const UserImage = ({ filename = '' }) => {
 	const classes = useStyles()
+	if (filename === '') return <></>
 	return (
 		<Grid item key={filename} xs={12} sm={6} md={4}>
 			<Card className={classes.card}>

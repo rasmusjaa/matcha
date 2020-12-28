@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
 
 const ProfileImage = ({ profilePic = '' }) => {
 	const classes = useStyles()
+	if (profilePic === '') return <></>
 	return (
 		<Card className={classes.card}>
 			<CardMedia

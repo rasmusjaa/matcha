@@ -82,7 +82,7 @@ const getInterestNames = (
 
 const getInterests = async (setHashtags: Function) => {
 	await axios
-		.get('http://localhost:3001/interests')
+		.get('/interests')
 		.then((response) => {
 			setHashtags(response.data)
 		})
@@ -93,9 +93,16 @@ const getInterests = async (setHashtags: Function) => {
 
 const getUsers = async (setUsers: Function) => {
 	await axios
-		.get('http://localhost:3001/users')
+		.get('/users')
 		.then((response) => {
-			setUsers(response.data)
+			const usersWithData = response.data.filter(
+				(user: any) =>
+					!!user.birth_date &&
+					!!user.name[0] &&
+					!!user.profile_pic_file &&
+					!!user.location[0]
+			)
+			setUsers(usersWithData)
 		})
 		.catch((error) => {
 			console.log(error)

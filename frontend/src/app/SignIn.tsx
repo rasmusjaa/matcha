@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -52,25 +53,42 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '5em',
 		margin: '0 10px',
 	},
+	errorMessage: {
+		margin: theme.spacing(3),
+		color: 'red',
+	},
 }))
 
 const Login = () => {
 	const classes = useStyles()
+	const [submitResponse, setSubmitResponse] = useState('')
+	const [redirect, setRedirect] = useState(false)
 	const [loginInfo, setLoginInfo] = useState({
 		userName: '', // unique
 		password: '',
 	})
 
-	const submitCreateForm = (e: any) => {
+	const submitCreateForm = async (e: any) => {
 		e.preventDefault()
-		signIn(loginInfo)
+		const loginOk = await signIn(loginInfo)
+		if (loginOk) {
+			setRedirect(true)
+		} else setSubmitResponse('Wrong username or password')
 	}
 	const onChange = (e: any) => {
 		setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
 	}
 
+	const renderRedirect = () => {
+		if (redirect) {
+			return <Redirect to="/browse" />
+		}
+		return <></>
+	}
+
 	return (
 		<>
+			{renderRedirect()}
 			<Helmet>
 				<title>Sign In</title>
 			</Helmet>
@@ -93,6 +111,9 @@ const Login = () => {
 							</Avatar>
 							<Typography component="h1" variant="h5">
 								Sign in
+							</Typography>
+							<Typography variant="h6" className={classes.errorMessage}>
+								{submitResponse}
 							</Typography>
 							<ValidatorForm
 								className={classes.form}
