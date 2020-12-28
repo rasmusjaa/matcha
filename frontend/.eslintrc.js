@@ -26,7 +26,6 @@ module.exports = {
 		jsx: true,
 	  },
 	  sourceType: 'module',
-	  tsconfigRootDir: __dirname,
 	  project: './tsconfig.eslint.json',
 	},
 	rules: {
