@@ -94,7 +94,7 @@ const Header = () => {
 		},
 		{
 			name: 'Sign out',
-			url: '/?logout=true',
+			url: '/signout',
 		},
 	]
 

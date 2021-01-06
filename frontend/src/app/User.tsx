@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useCookies } from 'react-cookie'
 import Grid from '@material-ui/core/Grid'
@@ -47,30 +47,37 @@ interface ProfileInfo {
 	last_login_timestamp: string
 }
 
-const Profile = () => {
-	const history = useHistory()
+const User = (props: any) => {
 	const classes = useStyles()
 	const [cookies, setCookie, removeCookie] = useCookies(['matcha-cookie'])
 	const [hashtags, setHashtags] = useState<string[]>([])
 	const [profileInfo, setProfile] = useState<ProfileInfo>()
 	const [userPics, setUserPics] = useState<string[]>([])
+	const [redirect, setRedirect] = useState(false)
+	// const [liked, setLiked] = useState(false)
 
+	const renderRedirect = () => {
+		if (redirect) {
+			return <Redirect to="/" />
+		}
+		return <></>
+	}
+	const {
+		location: { pathname },
+	} = props
+	const userID = pathname.substring(pathname.lastIndexOf('/') + 1)
+	console.log(userID)
 	useEffect(() => {
 		if (!cookies['matcha-cookie'] || !cookies['matcha-cookie'].id)
-			history.push('/')
-		else
-			getProfileInfo(
-				cookies['matcha-cookie'].id,
-				setProfile,
-				setHashtags,
-				setUserPics
-			)
-	}, [cookies, history])
+			setRedirect(true)
+		else getProfileInfo(userID, setProfile, setHashtags, setUserPics)
+	}, [cookies, userID])
 	const age = calculateAge(profileInfo?.birth_date)
 	return (
 		<>
+			{renderRedirect()}
 			<Helmet>
-				<title>Profile</title>
+				<title>{`Check out ${profileInfo?.name[0]}!`}</title>
 			</Helmet>
 			<main>
 				<Container className={classes.cardGrid} maxWidth="md">
@@ -97,6 +104,7 @@ const Profile = () => {
 											? profileInfo?.location[0]
 											: 'no location'
 									}
+									id={profileInfo?.id}
 								/>
 								<ProfileBio biography={profileInfo?.biography} />
 								<Hashtags hashtags={hashtags} />
@@ -113,4 +121,4 @@ const Profile = () => {
 	)
 }
 
-export default Profile
+export default User

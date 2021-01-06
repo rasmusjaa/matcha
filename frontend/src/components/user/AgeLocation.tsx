@@ -5,6 +5,7 @@ import ThumbUpRoundedIcon from '@material-ui/icons/ThumbUpRounded'
 import ThumbDownRoundedIcon from '@material-ui/icons/ThumbDownRounded'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import like from '../../services/like'
 
 const useStyles = makeStyles((Theme) => ({
 	likeButtons: {
@@ -21,12 +22,18 @@ const useStyles = makeStyles((Theme) => ({
 	},
 }))
 
-const AgeLocation = ({ age = 0, location = '' }) => {
+const AgeLocation = ({ age = 0, location = '', id = 0 }) => {
 	const classes = useStyles()
 	return (
 		<>
 			<Grid item className={classes.likeButtons}>
-				<IconButton className={classes.dislikeButton}>
+				<IconButton
+					onClick={() => {
+						console.log('clicked')
+						like(id)
+					}}
+					className={classes.dislikeButton}
+				>
 					<ThumbDownRoundedIcon fontSize="large" />
 				</IconButton>
 			</Grid>

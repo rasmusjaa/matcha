@@ -12,6 +12,7 @@
         "axios": "^0.21.0",
         "dayjs": "^1.9.6",
         "react": "^16.8.0",
+        "react-cookie": "^4.0.3",
         "react-dom": "^16.8.0",
         "react-helmet-async": "^1.0.7",
         "react-material-ui-form-validator": "^2.1.1",

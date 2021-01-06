@@ -24,12 +24,8 @@ userRouter.post('/', (req, res) => {
 })
 
 userRouter.get('/', (req, res, next) => {
-    console.log('test');
-    
-	const decodedToken: any = jsonwebtoken.verify(req.cookies['token'], JWT_SECRET)
 	getRowsFromTable('users')
 		.then(response => {
-			console.log(response)
 			res.status(200).send(response);
 		})
 		.catch(error => {
@@ -38,25 +34,23 @@ userRouter.get('/', (req, res, next) => {
 })
 
 userRouter.get('/:id', (req, res) => {
-	const decodedToken: any = jsonwebtoken.verify(req.cookies['token'], JWT_SECRET)
 	getRowFromTable(req.params.id, 'users')
-	.then(response => {
-		res.status(200).send(response);
-	})
-	.catch(error => {
-		res.status(500).send(error);
-	})
+		.then(response => {
+			res.status(200).send(response);
+		})
+		.catch(error => {
+			res.status(500).send(error);
+		})
 })
 
 userRouter.delete('/:id', (req, res) => {
-	const decodedToken: any = jsonwebtoken.verify(req.cookies['token'], JWT_SECRET)
 	deleteWithId(req.params.id, 'users')
-	.then(response => {
-		res.status(200).send(response);
-	})
-	.catch(error => {
-		res.status(500).send(error);
-	})
+		.then(response => {
+			res.status(200).send(response);
+		})
+		.catch(error => {
+			res.status(500).send(error);
+		})	
 })
 
 export default userRouter

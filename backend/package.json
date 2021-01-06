@@ -17,7 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.ts",
-    "install-dev": "ts-node install.ts"
+    "create-db": "ts-node install.ts"
   },
   "author": "",
   "license": "ISC",

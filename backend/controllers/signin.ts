@@ -8,18 +8,20 @@ signInRouter.post('/', (req, res) => {
 	getUser(req.body)
 	.then(response => {
 		if (response === null) {
-			console.log('res: ', response)
 			res.status(401).send('Wrong password');
 		}
 		else {
 			const token = signToken(response)
-			res.cookie('token', token, { httpOnly: true })
-			console.log(token)
-			res.status(200).json({ token })
+			const cookie = {
+				username: response.username,
+				id: response.id,
+			}
+			res.cookie('matcha-token', token, { httpOnly: true })
+			res.cookie('matcha-cookie', cookie)
+			res.status(200).json(cookie)
 		}
 	})
 	.catch(error => {
-		console.log(error)
 		res.status(500).send(error);
 	})
 })

@@ -9,9 +9,11 @@ import { ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from './Theme'
 import SignIn from './app/SignIn'
+import SignOut from './app/SignOut'
 import CreateAccount from './app/CreateAccount'
 import People from './app/People'
 import Profile from './app/Profile'
+import User from './app/User'
 import ForgotPassword from './app/ForgotPassword'
 import NotFoundComponent from './app/NotFoundComponent'
 import Header from './components/Header'
@@ -51,9 +53,10 @@ const App = () => {
 										<Route path="/create" component={CreateAccount} />
 										<Route path="/browse" component={People} />
 										<Route path="/profile" component={Profile} />
+										<Route path="/user" component={User} />
 										<Route path="/forgot" component={ForgotPassword} />
+										<Route path="/signout" component={SignOut} />
 										<Route path="/404" component={NotFoundComponent} />
-										<Route path="/" component={SignIn} />
 										<Redirect from="/*" to="/404" />
 									</Switch>
 								</div>

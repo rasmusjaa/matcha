@@ -5,7 +5,7 @@ import interestRouter from './controllers/interests'
 import imagesRouter from './controllers/images'
 import signInRouter from './controllers/signin'
 import signOutRouter from './controllers/signout'
-
+import likesRouter from './controllers/like'
 
 import cookieParser from 'cookie-parser'
 
@@ -17,7 +17,7 @@ app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.static('public'))
-app.use(middleware.requestLogger)
+// app.use(middleware.requestLogger)
 
 app.use(function (req: Request, res: Response, next: NextFunction) {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -26,11 +26,13 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 	next();
 });
 
+app.use('/api/signin', signInRouter)
+app.use('/api/signout', signOutRouter)
+app.use(middleware.cookieChecker)
 app.use('/api/users', userRouter)
 app.use('/api/interests', interestRouter)
 app.use('/api/user_images', imagesRouter)
-app.use('/api/signin', signInRouter)
-app.use('/api/signout', signOutRouter)
+app.use('/api/likes', likesRouter)
 
 app.use(middleware.errorHandler)
 

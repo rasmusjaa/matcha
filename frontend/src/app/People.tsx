@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
+import { useCookies } from 'react-cookie'
 import axios from 'axios'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -14,6 +16,11 @@ import Fame from '../components/user/Fame'
 import Hashtags from '../components/user/Hashtags'
 import { AgeLocationMini } from '../components/user/AgeLocation'
 import calculateAge from '../services/calculateAge'
+import {
+	getInterestNames,
+	getAllInterests,
+	getUsers,
+} from '../services/getUserData'
 
 const useStyles = makeStyles((theme) => ({
 	icon: {
@@ -68,56 +75,21 @@ interface Hashtag {
 	interest: string
 }
 
-const getInterestNames = (
-	userInterests: number[],
-	allInterests: Hashtag[]
-): string[] => {
-	if (allInterests !== undefined) {
-		return allInterests
-			.filter((hashtag) => userInterests.includes(hashtag.id))
-			.map((hash) => hash.interest)
-	}
-	return ['']
-}
-
-const getInterests = async (setHashtags: Function) => {
-	await axios
-		.get('/api/interests')
-		.then((response) => {
-			setHashtags(response.data)
-		})
-		.catch((error) => {
-			console.log(error)
-		})
-}
-
-const getUsers = async (setUsers: Function) => {
-	await axios
-		.get('/api/users')
-		.then((response) => {
-			const usersWithData = response.data.filter(
-				(user: any) =>
-					!!user.birth_date &&
-					!!user.name[0] &&
-					!!user.profile_pic_file &&
-					!!user.location[0]
-			)
-			setUsers(usersWithData)
-		})
-		.catch((error) => {
-			console.log(error)
-		})
-}
-
 const People = () => {
+	const history = useHistory()
 	const classes = useStyles()
+	const [cookies, setCookie, removeCookie] = useCookies(['matcha-cookie'])
 	const [users, setUsers] = useState<ProfileInfo[]>()
 	const [hashtags, setHashtags] = useState<Hashtag[]>()
 
 	useEffect(() => {
-		getUsers(setUsers)
-		getInterests(setHashtags)
-	}, [])
+		if (!cookies['matcha-cookie'] || !cookies['matcha-cookie'].id)
+			history.push('/')
+		else {
+			getUsers(setUsers, cookies['matcha-cookie'].id)
+			getAllInterests(setHashtags)
+		}
+	}, [cookies, history])
 
 	return (
 		<>
@@ -125,7 +97,6 @@ const People = () => {
 				<title>Browse</title>
 			</Helmet>
 			<main>
-				{/* Hero unit */}
 				<div className={classes.heroContent}>
 					<Container maxWidth="sm">
 						<Typography
@@ -137,13 +108,22 @@ const People = () => {
 						>
 							Browse
 						</Typography>
+
 						<Typography
 							variant="h5"
 							align="center"
 							color="textSecondary"
 							paragraph
 						>
-							Go have a look at our selection of prime individuals!
+							{`Hi ${cookies['matcha-cookie']?.username}!`}
+						</Typography>
+						<Typography
+							variant="h5"
+							align="center"
+							color="textSecondary"
+							paragraph
+						>
+							Have a look at our selection of prime individuals
 						</Typography>
 						<div className={classes.heroButtons}>
 							<Grid container spacing={2} justify="center">
@@ -162,7 +142,6 @@ const People = () => {
 					</Container>
 				</div>
 				<Container className={classes.cardGrid} maxWidth="md">
-					{/* End hero unit */}
 					<Grid container spacing={4}>
 						{users?.map((user) => (
 							<Grid item key={user.id} xs={12} sm={6} md={4}>
@@ -189,7 +168,12 @@ const People = () => {
 										/>
 									</CardContent>
 									<CardActions>
-										<Button size="small" color="primary">
+										<Button
+											component={Link}
+											to={`/user/${user.id}`}
+											size="small"
+											color="primary"
+										>
 											View
 										</Button>
 									</CardActions>

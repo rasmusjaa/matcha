@@ -1,8 +1,8 @@
 import { Pool } from 'pg'
 import * as testdata from './testdata.json'
-import { createUser } from './controllers/userApi'
-import { createInterest } from './controllers/interestApi'
-import { createImage } from './controllers/imageApi'
+import { createUser } from './controllers/usersFunctions'
+import { createInterest } from './controllers/interestsFunctions'
+import { createImage } from './controllers/imagesFunctions'
 import createPool from './pool'
 
 function addTestData(){
@@ -49,7 +49,15 @@ function createTables(){
 			id SERIAL PRIMARY KEY,
 			filename VARCHAR(50) UNIQUE NOT NULL,
 			user_id INTEGER NOT NULL
-		);`		
+		);
+		
+		CREATE TABLE likes (
+			id SERIAL PRIMARY KEY,
+			timestamp DATE,
+			liked_user INTEGER,
+			liker_user INTEGER,
+			is_like BOOLEAN
+		);`
 		, (err: any, res: any) => {
 			console.log(err, res)
 			pool.end()
@@ -84,6 +92,11 @@ function createDatabaseUser(){
 		password: 'postgres',
 		port: 5432}
 	);
+
+	pool.query("DROP TABLE IF EXISTS matcha ;", 
+	(err: any, res: any) => {
+		console.log(err, res)
+	});
 	
 	pool.query("CREATE ROLE user42 CREATEDB LOGIN PASSWORD 'user42' ;", 
 		(err: any, res: any) => {
@@ -93,4 +106,27 @@ function createDatabaseUser(){
 		});
 }
 
-createDatabaseUser()
+function recreateDatabase(){
+
+	const pool = new Pool({
+		user: 'postgres',
+		host: '127.0.0.1',
+		database: 'postgres',
+		password: 'postgres',
+		port: 5432}
+	);
+
+	pool.query("DROP DATABASE IF EXISTS matcha WITH ( FORCE )",
+	(err: any, res: any) => {
+		console.log(err, res)
+	});
+
+	pool.query("DROP USER IF EXISTS user42", 
+	(err: any, res: any) => {
+		console.log(err, res)
+		pool.end()
+		createDatabaseUser()
+	});
+}
+
+recreateDatabase()

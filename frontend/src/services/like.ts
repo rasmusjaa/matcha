@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const clearCookies = async () => {
+const like = async (id: number) => {
 	try {
-		const response = await axios.get('/api/signout')
+		const response = await axios.post('/api/likes', id)
 		if (response.status === 200) return true
 	} catch (err) {
 		return false
@@ -10,4 +10,4 @@ const clearCookies = async () => {
 	return false
 }
 
-export default clearCookies
+export default like
